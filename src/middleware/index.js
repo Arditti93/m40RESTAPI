@@ -16,8 +16,8 @@ exports.tokenCheck = async (req, res, next) => {
 
 exports.hashPass = async (req, res, next) => {
   try {
-    if (req.body.pass) {
-      req.body.pass = await bcrypt.hash(req.body.pass, 8);
+    if (req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 8);
       next();
     } else if (req.body.key === "password") {
       req.body.value = await bcrypt.hash(req.body.value, 8);
