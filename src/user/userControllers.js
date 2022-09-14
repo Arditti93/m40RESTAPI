@@ -35,7 +35,8 @@ exports.login = async (req, res) => {
         req.body.username,
         req.body.password
       );
-      res.status(200).send({ username: user.username });
+      const token = user.generateAuthToken();
+      res.status(200).send({ username: user.username, token });
     }
   } catch (error) {
     console.log(error);
@@ -45,11 +46,13 @@ exports.login = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
+    console.log(req.body.key)
     if (req.user) {
       await User.findByIdAndUpdate(req.user._id, {
         $set: { [req.body.key]: req.body.value },
       });
       const user = await User.findById(req.user._id);
+      console.log(user)
       res.status(200).send({ user: user.username });
     } else {
       throw new Error();

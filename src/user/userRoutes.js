@@ -9,4 +9,4 @@ userRouter.get("/displayUsers", listUsers);
 userRouter.put("/updateUser", tokenCheck, updateUser);
 userRouter.delete("/user", tokenCheck, deleteUser);
 
-module.exports = userRouter;
+module.exports = userRouter; 
