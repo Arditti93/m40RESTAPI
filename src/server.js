@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./user/userRoutes");
 const app = express();
+
+//make sure the port is set like the below line
 const port = process.env.PORT || 5001;
 
 app.use(cors());
