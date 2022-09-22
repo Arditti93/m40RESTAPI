@@ -1,4 +1,5 @@
 const User = require("./userModel");
+const jwt = require("jsonwebtoken");
 
 exports.addUser = async (req, res) => {
   try {
@@ -29,7 +30,9 @@ exports.listUsers = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     if (req.user) {
-      res.status(200).send({ user: req.user.username });
+      console.log(req.user)
+      console.log('IN REQ.USER')
+      res.status(200).send({ username: req.user.username });
     } else {
       const user = await User.findByCredentials(
         req.body.username,
@@ -74,3 +77,15 @@ exports.deleteUser = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
+
+exports.findUser = async(req, res) =>{
+  try{
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const decoded = jwt.verify(token, process.env.SECRET);
+    const user = await User.findById(decoded._id);
+    res.status(200).send({ username: user  });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error.message });
+  }
+}
